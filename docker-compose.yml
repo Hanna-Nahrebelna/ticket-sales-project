@@ -1,0 +1,64 @@
+
+services:
+  backend_rds:
+    build:
+      context: ./backend_rds  # вказуємо папку, де знаходиться Dockerfile
+      dockerfile: Dockerfile  # Dockerfile знаходиться в цій папці
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  backend_redis:
+    build:
+      context: ./backend_redis  # вказуємо папку, де знаходиться Dockerfile
+      dockerfile: Dockerfile  # Dockerfile знаходиться в цій папці
+    ports:
+      - "8002:8002"
+    depends_on:
+      - redis
+    networks:
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend  # вказуємо папку, де знаходиться Dockerfile
+      dockerfile: Dockerfile  # Dockerfile знаходиться в цій папці
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend_rds
+      - backend_redis
+    networks:
+      - frontend_network
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+networks:
+  backend:
+  frontend_network:
+
+volumes:
+  db_data:
