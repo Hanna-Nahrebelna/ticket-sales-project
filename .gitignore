@@ -21,13 +21,15 @@ media/
 # Файли для Docker, якщо вони генеруються
 docker-compose.override.yml
 
-# Ігнорувати папку .terraform
-.terraform/
 
-# Ігнорувати файли стану Terraform
+# Terraform files
+.terraform/
 *.tfstate
 *.tfstate.backup
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
 
-# Ігнорувати файл конфігурації Terraform lock
-*.terraform.lock.hcl
-
+# Ignore large files
+terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/5.72.1/windows_amd64/terraform-provider-aws_v5.72.1_x5.exe
