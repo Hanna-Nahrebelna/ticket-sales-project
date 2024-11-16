@@ -20,3 +20,14 @@ media/
 
 # Файли для Docker, якщо вони генеруються
 docker-compose.override.yml
+
+# Ігнорувати папку .terraform
+.terraform/
+
+# Ігнорувати файли стану Terraform
+*.tfstate
+*.tfstate.backup
+
+# Ігнорувати файл конфігурації Terraform lock
+*.terraform.lock.hcl
+
