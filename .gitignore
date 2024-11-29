@@ -23,7 +23,6 @@ docker-compose.override.yml
 
 
 # Terraform files
-.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.backup
 terraform/.terraform.lock.hcl
@@ -31,3 +30,5 @@ terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
 terraform/.terraform/
 terraform-provider-aws_v5.72.1_x5.exe
+
+bastion.sh

@@ -5,9 +5,11 @@ services:
       context: ./backend_rds  # вказуємо папку, де знаходиться Dockerfile
       dockerfile: Dockerfile  # Dockerfile знаходиться в цій папці
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      NAME: ${DB_USER}
+      USER: ${DB_USER}
+      PASSWORD: ${DB_PASSWORD}      
+      HOST: ${DB_HOST},
+      PORT: ${DB_PORT},
     ports:
       - "8001:8001"
     depends_on:
@@ -27,9 +29,7 @@ services:
       - backend
 
   frontend:
-    build:
-      context: ./frontend  # вказуємо папку, де знаходиться Dockerfile
-      dockerfile: Dockerfile  # Dockerfile знаходиться в цій папці
+    image: 339712948510.dkr.ecr.eu-north-1.amazonaws.com/tickera/rds:latest
     ports:
       - "8000:8000"
     depends_on:
@@ -38,27 +38,4 @@ services:
     networks:
       - frontend_network
 
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    networks:
-      - backend
-
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    networks:
-      - backend
-
-networks:
-  backend:
-  frontend_network:
-
-volumes:
-  db_data:
+  
